@@ -5,4 +5,5 @@ How to lunch:
 1. install ```kotlinc``` compiler
 2. ```cd``` to dir of script and parsed file
 3. launch from terminal: ```kotlinc -script <script_name> <cli_arg>```
-4. example: ```kotlinc -script soong_builtfiles_checker.kts line```
+
+Example: ```kotlinc -script soong_builtfiles_checker.kts line```
