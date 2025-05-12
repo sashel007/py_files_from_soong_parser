@@ -23,18 +23,39 @@ try {
 
 parsedFile.bufferedReader().use { reader ->
     println("parsedFile.bufferedReader()")
+
+    var previousLine: MutableList<String> = mutableListOf("")
+
     reader.lineSequence().forEach { line ->
-        if (line.contains(".py")) {
-            println("Line contains .py file")
-            outputFile.appendText(line + "\n")
-            // val tokens = line.split(" ", ",", "[", "]", ":", ".", "=", ";", "(", ")", "'", "\"", "`", "\\", "/")
-            // for (token in tokens) {
-            //     if (token.endsWith(".py")) {
-            //         outputFile.appendText(line)
-            //         outputFile.appendText("\n")
-            //     }
-            // }
+        args.forEach {
+            if (it == "line") {
+                if (line.contains(".py")) {
+                    outputFile.appendText(line + "\n")
+                }
+            }
+
+            if (it == "not_verbose") {
+                val tokens = line.split(" ", ",", "[", "]", ":", "=", ";", "(", ")", "'", "\"", "`", "\\", "/")
+                    for (token in tokens) {
+                        if (token.contains(".py") && (token !in previousLine)) {
+                            outputFile.appendText(token + "\n")
+                        }
+                    }
+            }
+
+            if (it == "file") {
+                if (line.contains(".py")) {
+                    val tokens = line.split(" ", ",", "[", "]", ":", "=", ";", "(", ")", "'", "\"", "`", "\\", "/")
+                    for (token in tokens) {
+                        if (token.contains(".py") && (token !in previousLine)) {
+                            outputFile.appendText(token + "\n")
+                        }
+                    }
+                    previousLine = tokens.toMutableList()
+                }
+            }
         }
     }
 }
 
+println("done!")
